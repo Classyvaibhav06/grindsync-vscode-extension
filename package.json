@@ -1,0 +1,103 @@
+{
+  "name": "grindsync-tracker",
+  "displayName": "GrindSync Activity Tracker",
+  "description": "Intelligent coding activity and verified proof-of-work tracker for GrindSync.",
+  "version": "1.0.0",
+  "publisher": "grindsync",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "grindsync.pair",
+        "title": "GrindSync: Connect Account (Enter Pairing Code)"
+      },
+      {
+        "command": "grindsync.disconnect",
+        "title": "GrindSync: Disconnect Account"
+      },
+      {
+        "command": "grindsync.pause",
+        "title": "GrindSync: Pause Tracking"
+      },
+      {
+        "command": "grindsync.resume",
+        "title": "GrindSync: Resume Tracking"
+      },
+      {
+        "command": "grindsync.syncNow",
+        "title": "GrindSync: Synchronize Now"
+      },
+      {
+        "command": "grindsync.openDashboard",
+        "title": "GrindSync: Open Dashboard"
+      },
+      {
+        "command": "grindsync.status",
+        "title": "GrindSync: View Tracking Status"
+      }
+    ],
+    "configuration": {
+      "title": "GrindSync Activity Tracker",
+      "properties": {
+        "grindsync.apiUrl": {
+          "type": "string",
+          "default": "https://grindsync.vercel.app",
+          "description": "Base URL of your GrindSync instance (e.g. https://grindsync.vercel.app or http://localhost:3000)"
+        },
+        "grindsync.idleTimeoutSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 15,
+          "maximum": 300,
+          "description": "Inactivity threshold in seconds before pausing active coding time."
+        },
+        "grindsync.sessionTimeoutMinutes": {
+          "type": "number",
+          "default": 15,
+          "minimum": 5,
+          "maximum": 60,
+          "description": "Minutes of sustained inactivity before auto-finalizing an abandoned coding session."
+        },
+        "grindsync.heartbeatIntervalSeconds": {
+          "type": "number",
+          "default": 30,
+          "minimum": 10,
+          "maximum": 120,
+          "description": "Interval in seconds to send lightweight heartbeat telemetry."
+        },
+        "grindsync.syncIntervalSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 20,
+          "maximum": 300,
+          "description": "Interval in seconds to flush queued activity intervals to GrindSync."
+        },
+        "grindsync.filterAiFormatterBursts": {
+          "type": "boolean",
+          "default": true,
+          "description": "Filter large automated burst edits (>1500 chars in a single tick) from being counted as manual keystrokes."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "tsc -p ./ && node dist/test/engine.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.3.3"
+  }
+}
